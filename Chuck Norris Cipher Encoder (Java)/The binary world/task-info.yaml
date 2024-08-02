@@ -1,6 +1,6 @@
 type: edu
 files:
-  - name: src/chucknorris/Main.java
+  - name: src/chucknorris/main/Main.java
     visible: true
     text: |-
       package chucknorris;
@@ -81,6 +81,12 @@ files:
         }
       }
     learner_created: false
-feedback_link: https://hyperskill.org/projects/293/stages/1537/implement#comment
+  - name: src/chucknorris/io/input/UserInputManager.java
+    visible: true
+    learner_created: true
+  - name: src/chucknorris/io/output/PrintCharacters.java
+    visible: true
+    learner_created: true
+feedback_link: https://hyperskill.org/learn/step/23025#comment
 status: Unchecked
 record: -1
