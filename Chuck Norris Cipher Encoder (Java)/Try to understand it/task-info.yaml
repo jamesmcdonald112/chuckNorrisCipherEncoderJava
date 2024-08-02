@@ -310,6 +310,15 @@ files:
           }
       }
     learner_created: true
+  - name: src/chucknorris/encode/Encode.java
+    visible: true
+    learner_created: true
+  - name: src/chucknorris/decode/Decode.java
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/learn/step/23027#comment
-status: Unchecked
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Fri, 02 Aug 2024 18:44:00 UTC"
 record: -1
