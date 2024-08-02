@@ -1,16 +1,5 @@
 type: edu
 files:
-  - name: src/chucknorris/Main.java
-    visible: true
-    text: |-
-      package chucknorris;
-      
-      public class Main {
-          public static void main(String[] args) {
-              System.out.println("Hello World!");
-          }
-      }
-    learner_created: false
   - name: test/ChuckNorrisTest.java
     visible: false
     text: |-
@@ -103,6 +92,166 @@ files:
         }
       }
     learner_created: false
+  - name: src/chucknorris/main/Main.java
+    visible: true
+    text: |-
+      package chucknorris;
+      
+      import chucknorris.io.input.UserInputManager;
+      import chucknorris.io.output.PrintCharacters;
+      
+      import java.util.Scanner;
+      
+      public class Main {
+          public static void main(String[] args) {
+              // Get user input
+              System.out.println("Input String");
+              String input = UserInputManager.getStringInput();
+      
+              // Convert user input to array of characters.
+              char[] characters = input.toCharArray();
+      
+              // Print the characters to the console.
+              System.out.println("The result");
+              PrintCharacters.printCharactersAsBinary(characters);
+      
+              // Close the scanner.
+              UserInputManager.closeScanner();
+      
+          }
+      }
+    learner_created: true
+  - name: src/chucknorris/io/input/UserInputManager.java
+    visible: true
+    text: |
+      package chucknorris.io.input;
+      
+      import java.util.Scanner;
+      
+      public class UserInputManager {
+      
+          private static final Scanner SCANNER = new Scanner(System.in);
+      
+          /**
+           * Gets the user input as a string.
+           *
+           * @return The user input as a string.
+           */
+          public static String getStringInput() {
+              return SCANNER.nextLine();
+          }
+      
+          /**
+           * Close the scanner.
+           */
+          public static void closeScanner() {
+              SCANNER.close();
+          }
+      }
+    learner_created: true
+  - name: src/chucknorris/io/output/PrintCharacters.java
+    visible: true
+    text: |
+      package chucknorris.io.output;
+      
+      import chucknorris.binary.BinaryConversion;
+      
+      public class PrintCharacters {
+      
+          /**
+           * Prints characters with a space between.
+           *
+           * @param characters The characters to be printed.
+           */
+          public static void printCharacter(char[] characters) {
+              for (int i = 0; i < characters.length; i++) {
+                  System.out.print(characters[i] + " ");
+              }
+          }
+      
+          /**
+           * Prints the character and its binary number
+           *
+           * @param characters The characters to be printed.
+           */
+          public static void printCharactersAsBinary(char[] characters) {
+              for (int i = 0; i < characters.length; i++) {
+                  String characterAsBinary = BinaryConversion.convertFromCharacterToBinary(characters[i]);
+                  System.out.println(characters[i] + " = " + characterAsBinary);
+              }
+          }
+      }
+    learner_created: true
+  - name: src/chucknorris/binary/BinaryConversion.java
+    visible: true
+    text: |
+      package chucknorris.binary;
+      
+      public class BinaryConversion {
+      
+          /**
+           * Converts a character to a binary number, first by getting the ascii value and then
+           * converting that using a helper method. The binary number is returned and padded.
+           *
+           * @param character The character to be converted.
+           * @return The binary string.
+           */
+          public static String convertFromCharacterToBinary(char character) {
+              // Convert the character to an ASCII value
+              int asciiValue = character;
+              String binaryString = convertToBinaryString(asciiValue);
+              return padBinaryString(binaryString, 7);
+          }
+      
+          /**
+           * Converts the ascii value to a binary string.
+           *
+           * @param value The ascii value to be converted
+           * @return The binary value.
+           */
+          private static String convertToBinaryString(int value) {
+              // StringBuilder for storing the binary string
+              StringBuilder binaryString = new StringBuilder();
+      
+              // Manually convert the ASCII value to a binary string
+              int currentValue = value;
+              while (currentValue > 0) {
+                  if (currentValue % 2 == 0) {
+                      binaryString.append('0');
+                  } else {
+                      binaryString.append('1');
+                  }
+                  currentValue = currentValue /2;
+              }
+              // Reverse the binary string since the least significant bit is appended first
+              return binaryString.reverse().toString();
+          }
+      
+          /**
+           * Pads the start of the binary string with '0's up to the specified length.
+           *
+           * @param binaryString The binary string to be padded
+           * @param length The length of the string after padding
+           * @return The padded binary string.
+           */
+          private static String padBinaryString(String binaryString, int length) {
+              StringBuilder paddedBinaryString = new StringBuilder(binaryString);
+      
+              // Pad the binary string with leading zeros to ensure it is 8 bits long
+              while (paddedBinaryString.length() < length) {
+                  paddedBinaryString.insert(0, '0');
+              }
+              return paddedBinaryString.toString();
+          }
+      
+      }
+    learner_created: true
+  - name: src/chucknorris/binary/ChuckNorrisTechnique.java
+    visible: true
+    learner_created: true
 feedback_link: https://hyperskill.org/learn/step/23026#comment
-status: Unchecked
-record: -1
+status: Solved
+feedback:
+  message: Congratulations!
+  time: "Fri, 02 Aug 2024 17:41:06 UTC"
+record: 3

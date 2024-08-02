@@ -1,16 +1,5 @@
 type: edu
 files:
-  - name: src/chucknorris/Main.java
-    visible: true
-    text: |-
-      package chucknorris;
-      
-      public class Main {
-          public static void main(String[] args) {
-              System.out.println("Hello World!");
-          }
-      }
-    learner_created: false
   - name: test/ChuckNorrisTest.java
     visible: false
     text: |-
@@ -107,6 +96,220 @@ files:
         }
       }
     learner_created: false
+  - name: src/chucknorris/main/Main.java
+    visible: true
+    text: "package chucknorris;\n\nimport chucknorris.binary.BinaryConversion;\nimport\
+    \ chucknorris.binary.ChuckNorrisTechnique;\nimport chucknorris.io.input.UserInputManager;\n\
+    import chucknorris.io.output.PrintCharacters;\n\nimport java.util.Arrays;\nimport\
+    \ java.util.Scanner;\n\npublic class Main {\n    public static void main(String[]\
+    \ args) {\n        // Get user input\n        System.out.println(\"Input String\"\
+    );\n        String input = UserInputManager.getStringInput();\n\n        // Concatenate\
+    \ binary sequence of all characters\n        StringBuilder binarySequence = new\
+    \ StringBuilder();\n        for (char character : input.toCharArray()) {\n   \
+    \         binarySequence.append(BinaryConversion.convertFromCharacterToBinary(character));\n\
+    \        }\n\n        // Convert the binary sequence to Chuck Norris style encoding\n\
+    \        String chuckNorisEncoded =\n                ChuckNorrisTechnique.convertBinaryStringToChuckNoris(binarySequence.toString());\n\
+    \n        // Print the characters to the console.\n        System.out.println(\"\
+    The result:\");\n        System.out.println(chuckNorisEncoded);\n\n        //\
+    \ Close the scanner.\n        UserInputManager.closeScanner();\n\n        \n\n\
+    \    }\n}"
+    learner_created: true
+  - name: src/chucknorris/io/input/UserInputManager.java
+    visible: true
+    text: |
+      package chucknorris.io.input;
+      
+      import java.util.Scanner;
+      
+      public class UserInputManager {
+      
+          private static final Scanner SCANNER = new Scanner(System.in);
+      
+          /**
+           * Gets the user input as a string.
+           *
+           * @return The user input as a string.
+           */
+          public static String getStringInput() {
+              return SCANNER.nextLine();
+          }
+      
+          /**
+           * Close the scanner.
+           */
+          public static void closeScanner() {
+              SCANNER.close();
+          }
+      }
+    learner_created: true
+  - name: src/chucknorris/io/output/PrintCharacters.java
+    visible: true
+    text: |
+      package chucknorris.io.output;
+      
+      import chucknorris.binary.BinaryConversion;
+      
+      public class PrintCharacters {
+      
+          /**
+           * Prints characters with a space between.
+           *
+           * @param characters The characters to be printed.
+           */
+          public static void printCharacter(char[] characters) {
+              for (int i = 0; i < characters.length; i++) {
+                  System.out.print(characters[i] + " ");
+              }
+          }
+      
+          /**
+           * Prints the character and its binary number
+           *
+           * @param characters The characters to be printed.
+           */
+          public static void printCharactersAsBinary(char[] characters) {
+              for (int i = 0; i < characters.length; i++) {
+                  String characterAsBinary = BinaryConversion.convertFromCharacterToBinary(characters[i]);
+                  System.out.println(characters[i] + " = " + characterAsBinary);
+              }
+          }
+      }
+    learner_created: true
+  - name: src/chucknorris/binary/BinaryConversion.java
+    visible: true
+    text: |
+      package chucknorris.binary;
+      
+      public class BinaryConversion {
+      
+          /**
+           * Converts a character to a binary number, first by getting the ascii value and then
+           * converting that using a helper method. The binary number is returned and padded.
+           *
+           * @param character The character to be converted.
+           * @return The binary string.
+           */
+          public static String convertFromCharacterToBinary(char character) {
+              // Convert the character to an ASCII value
+              int asciiValue = character;
+              String binaryString = convertToBinaryString(asciiValue);
+              return padBinaryString(binaryString, 7);
+          }
+      
+          /**
+           * Converts the ascii value to a binary string.
+           *
+           * @param value The ascii value to be converted
+           * @return The binary value.
+           */
+          private static String convertToBinaryString(int value) {
+              // StringBuilder for storing the binary string
+              StringBuilder binaryString = new StringBuilder();
+      
+              // Manually convert the ASCII value to a binary string
+              int currentValue = value;
+              while (currentValue > 0) {
+                  if (currentValue % 2 == 0) {
+                      binaryString.append('0');
+                  } else {
+                      binaryString.append('1');
+                  }
+                  currentValue = currentValue /2;
+              }
+              // Reverse the binary string since the least significant bit is appended first
+              return binaryString.reverse().toString();
+          }
+      
+          /**
+           * Pads the start of the binary string with '0's up to the specified length.
+           *
+           * @param binaryString The binary string to be padded
+           * @param length The length of the string after padding
+           * @return The padded binary string.
+           */
+          private static String padBinaryString(String binaryString, int length) {
+              StringBuilder paddedBinaryString = new StringBuilder(binaryString);
+      
+              // Pad the binary string with leading zeros to ensure it is 8 bits long
+              while (paddedBinaryString.length() < length) {
+                  paddedBinaryString.insert(0, '0');
+              }
+              return paddedBinaryString.toString();
+          }
+      
+      }
+    learner_created: true
+  - name: src/chucknorris/binary/ChuckNorrisTechnique.java
+    visible: true
+    text: |
+      package chucknorris.binary;
+      
+      public class ChuckNorrisTechnique {
+      
+          /**
+           * Converts the binary string to an encoded Chuck Noris string. The binary sequence is looped
+           * through and each character is further encoded.
+           *
+           * @param binarySequence The binary sequence to encode as a String.
+           * @return The encoded binary sequence as a string.
+           */
+          public static String convertBinaryStringToChuckNoris(String binarySequence) {
+              StringBuilder chuckNoris = new StringBuilder();
+      
+              // Start with a character to reference
+              char previousChar = binarySequence.charAt(0);
+      
+              // Keep track of the amount of 1s or 0s in a row
+              int count = 0;
+      
+      
+              for (int i = 0; i < binarySequence.length(); i++) {
+                  char currentChar = binarySequence.charAt(i);
+                  if (currentChar == previousChar) {
+                      count++;
+                  } else {
+                      appendChuckNorrisBlock(chuckNoris, previousChar, count);
+                      previousChar = currentChar;
+                      count = 1;
+                  }
+      
+              }
+      
+              appendChuckNorrisBlock(chuckNoris, previousChar, count);
+              return chuckNoris.toString().trim();
+          }
+      
+          /**
+           * Takes in the chuck noris string builder to be adjusted, the bit to check and the amount of
+           * zeros to add. The method checks if there is anything in the Stringbuilder, if not it appends
+           * an empty space for formatting. Next it checks the bit and appends the correct amount of
+           * zeros to represent the binary digit, 1 = 0  and 0 = 00. Finally, it adds the correct
+           * amount of zeros to represent the count of binary digits in a row.
+           *
+           * @param chuckNoris The block to be appended.
+           * @param bit The bit to convert.
+           * @param count The amount of bits to add as zeros.
+           */
+          private static void appendChuckNorrisBlock(StringBuilder chuckNoris, char bit, int count) {
+              // Add a space
+              if (chuckNoris.length() > 0) {
+                  chuckNoris.append(" ");
+              }
+      
+              // Add the correct amount of zeros based on the bit.
+              if (bit == '1') {
+                  chuckNoris.append("0 ");
+              } else {
+                  chuckNoris.append("00 ");
+              }
+      
+              // Add the amount of zeros representing same binary digit in a row
+              for (int i = 0; i < count; i++) {
+                  chuckNoris.append("0");
+              }
+          }
+      }
+    learner_created: true
 feedback_link: https://hyperskill.org/learn/step/23027#comment
 status: Unchecked
 record: -1
