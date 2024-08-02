@@ -15,7 +15,8 @@ public class Main {
         char[] characters = input.toCharArray();
 
         // Print the characters to the console.
-        PrintCharacters.printCharacter(characters);
+        System.out.println("The result");
+        PrintCharacters.printCharactersAsBinary(characters);
 
         // Close the scanner.
         UserInputManager.closeScanner();
