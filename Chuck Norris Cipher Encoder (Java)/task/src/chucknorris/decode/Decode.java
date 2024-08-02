@@ -9,7 +9,14 @@ public class Decode {
      * @return Returns the string decoded.
      */
     public static String decode(String encodedString) {
+        if (!DecodeValidator.isValidEncodedString(encodedString)) {
+            throw new IllegalArgumentException("Invalid encoded string");
+        }
         String binaryString = decodeToBinary(encodedString);
+
+        if (!DecodeValidator.isValidBinaryStringLength(binaryString)) {
+            throw new IllegalArgumentException("Invalid binary string length");
+        }
         return binaryToText(binaryString);
     }
 
